@@ -17,7 +17,9 @@ classdef Casper < audioPlugin
           [m,n] = size(in);
            X = fft(in,m);
            for w = 1:m
-        %       X(w,:)=X(w,:)*(1/(i*w*44100/m))*exp(-1*i*obj.Shift*(w*44100/m));
+        %trying to apply an immaginary exponential to each frequency
+        %component
+                X(w,:)=X(w,:)*(1/(i*w*44100/m))*exp(-1*i*obj.Shift*(w*44100/m));
            end;
            out = real(ifft(X)); 
         end
