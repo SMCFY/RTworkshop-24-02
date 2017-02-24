@@ -15,7 +15,7 @@ classdef bandPass < audioPlugin
           [m,n] = size(in);
            X = fft(in,m);
            
-           w = blackman(128);
+           w = blackman(obj.Width*256);
            
            bp = [ones(1,m/2/4) w' ones(1,m/2-length(w)-m/2/4)];
            bp = [bp flip(bp)]';
