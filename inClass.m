@@ -15,7 +15,7 @@ classdef inClass < audioPlugin
           [m,n] = size(in);
            X = fft(in,m);
            X(1:round(m*obj.Width),:) = 0;
-           out = real(ifft(X)); 
+           out = real(ifft(X));
         end
     end
     
