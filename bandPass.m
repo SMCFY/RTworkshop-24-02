@@ -1,26 +1,31 @@
-classdef Casper < audioPlugin
+classdef bandPass < audioPlugin
     %INCLASS Summary of this class goes here
     %   Detailed explanation goes here
     
     properties
         Width = 0.5;
-        Shift = 0;
     end
     
     properties (Constant)
       PluginInterface = audioPluginInterface( ...
-            audioPluginParameter('Shift', 'Mapping',{'lin',0,2}))
+            audioPluginParameter('Width', 'Mapping',{'lin',0,1}))
     end
-    
     methods
         function out = process(obj,in)
           [m,n] = size(in);
            X = fft(in,m);
-           for(w = 1:m)
-                X=X*(1/(1i*w)*exp(-1*i*obj.Shift*(w*44100/m));
-           end;
+           
+           w = blackman(obj.Width*256);
+           
+           bp = [ones(1,m/2/4) w' ones(1,m/2-length(w)-m/2/4)];
+           bp = [bp flip(bp)]';
+           X = X .* bp;
+           
+           %X(1:round(m*obj.Width),:) = 0;
+           
            out = real(ifft(X)); 
         end
     end
     
 end
+
